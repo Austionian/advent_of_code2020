@@ -9,3 +9,4 @@ path = "src/lib.rs"
 
 [dependencies]
 anyhow = "1.0.69"
+regex = "1.7.1"
