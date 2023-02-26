@@ -1,5 +1,5 @@
 use anyhow::Result;
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 
 fn part_one(path: &str) -> Result<usize> {
     Ok(std::fs::read_to_string(path)?
@@ -20,7 +20,24 @@ fn part_one(path: &str) -> Result<usize> {
 fn part_two(path: &str) -> Result<usize> {
     Ok(std::fs::read_to_string(path)?
         .split("\n\n")
-        .map(|answers| {})
+        .map(|answers| {
+            let mut map = HashMap::new();
+            let mut answer_count = 0;
+            let _ = answers
+                .lines()
+                .map(|line| {
+                    answer_count += 1;
+                    let _ = line
+                        .chars()
+                        .map(|c| {
+                            map.entry(c).and_modify(|v| *v += 1).or_insert(1);
+                        })
+                        .collect::<Vec<_>>();
+                })
+                .collect::<Vec<_>>();
+            let ans: Vec<_> = map.iter_mut().filter(|v| v.1 == &answer_count).collect();
+            ans.len()
+        })
         .sum())
 }
 
